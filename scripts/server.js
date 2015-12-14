@@ -33,16 +33,21 @@ var KEYS = {
 io.on('connection', function(socket) {
     
     socket.on('user input',function(coords){
-        /*
+        
         var player = connected_users[socket.id];
+        console.log(player, coords);
+        
         var deltaT = Math.sqrt(Math.pow(coords.x - player.x, 2) + Math.pow(coords.y - player.y, 2)) / player.vel;
+        
         var count = 0;
-        while(player.x != coords.x){
+        while(!(player.x >= coords.x - 1 && player.x <= coords.x + 1)){
             player.x += (coords.x - player.x) / deltaT;
             player.y += (coords.y - player.y) / deltaT;
             io.to(socket.id).emit('update player', player);
         }
-        */
+        player.x = coords.x;
+        player.y = coords.y;
+        console.log(count, player, coords);
     }); 
     
     socket.on('player color',function(color){
@@ -51,7 +56,7 @@ io.on('connection', function(socket) {
     });
     
     socket.on('player connect', function(name){
-        connected_users[socket.id] = {x:0, y:0, vel: 5, moving: true, color:"white", name:name};
+        connected_users[socket.id] = {x:0, y:0, vel: 2, moving: true, color:"white", name:name};
         console.log(name+" logged in with socket: " + socket.id);
     });
 });
