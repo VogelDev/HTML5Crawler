@@ -1,0 +1,77 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font: 13px Helvetica, Arial;
+    background:#485b40;
+}
+a{
+    font-weight: bolder;
+    color:#BFB;
+}
+form {
+    border:0;
+    padding: 5px;
+    position: fixed;
+    bottom: 0;
+    left:16.66666vw;
+    right:16.66666vw;
+}
+:focus {
+    outline: 0;
+}
+#screen{
+    margin:auto;
+}
+#m, #name {
+    border: 0;
+    padding: 10px;
+    width: calc(90% - 10px);
+    border-radius:10px;
+}
+#send, #join {
+    width: 9%;
+    background:#36492d;
+    border: none;
+}
+#chat, #scores{
+    height:100%;
+    background:#485b40;
+    overflow-y:auto;
+    overflow-x:none;
+    word-break: keep-all;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+#chat {
+    width:70%;
+}
+#scores{
+    width:25%;
+}
+#chat li, #scores li {
+    padding: 5px 10px;
+}
+#chat li:nth-child(odd), #scores li:nth-child(odd) {
+    background: #eee;
+}
+#chat li:nth-child(even), #scores li:nth-child(even) {
+    background: #fff;
+}
+#chatWell{
+    background:#36492d;
+    border:0;
+    border-radius:10px;
+    position: fixed;
+    bottom: 3%;
+    left:16.66666vw;
+    right:16.66666vw;
+    height:35vh;
+}
+#chatArea{
+    position:absolute;
+    bottom:0;
+}
