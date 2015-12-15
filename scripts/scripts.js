@@ -35,7 +35,6 @@ $(document).ready(function(){
             $('#login').hide();
             $('#update').show();
             logged = true;
-            console.log('logged');
         }
     });
     
@@ -45,7 +44,6 @@ $(document).ready(function(){
             x = e.pageX - offset.left;
             y = e.pageY - offset.top;
             socket.emit('user input', {x:x, y:y});
-            console.log('clicked');
         }
     });
     
@@ -53,21 +51,19 @@ $(document).ready(function(){
     
     $('#update').click(function(e){
         if(logged){
-            game.player.color = $("#color").val();
             socket.emit('player color', $("#color").val());
-            console.log('updated');
         }
     });
     
-    socket.on("update player", function(player){
-        game.player = player;
+    socket.on("update player", function(players){
+        game.players = JSON.parse(players);
     });
     
     game.startGame();
 });
     
 function Game(canvas) {
-    this.player = {x:0, y:0, vel: 5, moving: true, color:"white", name:"name"};
+    this.players = {};
     this.canvas = $(canvas)[0];
     this.ctx = this.canvas.getContext('2d');
     
@@ -112,9 +108,13 @@ Game.prototype = {
         ctx.fillStyle = 'black';
         ctx.fillRect(0, 0, gameSize.x, gameSize.y);
         
-        if(this.player){
-            ctx.fillStyle = this.player.color;
-            ctx.fillRect(this.player.x, this.player.y, 25, 25);
+        if(this.players){
+            //console.log(this.players);
+            for(var key in this.players){
+                player = this.players[key];
+                ctx.fillStyle = player.color;
+                ctx.fillRect(player.x, player.y, 25, 25);
+            }
         }
     }
 };

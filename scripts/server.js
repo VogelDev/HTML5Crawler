@@ -8,20 +8,18 @@ var options = {
     key: fs.readFileSync('/etc/apache2/ssl/private.key'),
     cert: fs.readFileSync('/etc/apache2/ssl/ssl.crt')
 };
+
 var serverPort = 3030;
 
 var server = https.createServer(options, app);
 var io = require('socket.io')(server);
-
-var room = 'chat';
 
 
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-var connected_users= [];
-
+var connected_users= {};
 
 var KEYS = {
     LEFT:37,
@@ -34,8 +32,8 @@ io.on('connection', function(socket) {
     
     socket.on('user input',function(coords){
         
+        
         var player = connected_users[socket.id];
-        console.log(player, coords);
         
         var deltaT = Math.sqrt(Math.pow(coords.x - player.x, 2) + Math.pow(coords.y - player.y, 2)) / player.vel;
         
@@ -43,11 +41,10 @@ io.on('connection', function(socket) {
         while(!(player.x >= coords.x - 1 && player.x <= coords.x + 1)){
             player.x += (coords.x - player.x) / deltaT;
             player.y += (coords.y - player.y) / deltaT;
-            io.to(socket.id).emit('update player', player);
+            io.emit('update player', JSON.stringify(connected_users));
         }
         player.x = coords.x;
         player.y = coords.y;
-        console.log(count, player, coords);
     }); 
     
     socket.on('player color',function(color){
